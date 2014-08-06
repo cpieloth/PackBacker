@@ -1,7 +1,5 @@
-#!/usr/bin/env python
-
 """
-Downloads Eigen library with sparse matrix support.
+Downloads Eigen3 library with sparse matrix support.
 """
 
 __author__ = 'Christof Pieloth'
@@ -20,7 +18,7 @@ class Eigen3(Installer):
     REPO_FOLDER = "eigen321"
 
     def __init__(self):
-        Installer.__init__(self, "eigen3")
+        Installer.__init__(self, 'eigen3', 'Eigen version 3')
 
     @classmethod
     def instance(cls, params):
@@ -70,19 +68,3 @@ class Eigen3(Installer):
         version = "3.2.1"
         call("hg update " + version, shell=True)
         UtilsUI.print_step_end("Initializing")
-
-
-# if __name__ == "__main__":
-#     parser = argparse.ArgumentParser(description="Downloads Eigen library with sparse matrix support.")
-#     parser.add_argument("-d", "--destdir", help="Destination path.")
-#     args = parser.parse_args()
-#
-#     destdir = AInstaller.get_default_destdir()
-#     if args.destdir:
-#         destdir = args.destdir
-#
-#     installer = Eigen3(destdir)
-#     if installer.install():
-#         sys.exit(AInstaller.EXIT_SUCCESS)
-#     else:
-#         sys.exit(AInstaller.EXIT_ERROR)

@@ -2,8 +2,9 @@ __author__ = 'Christof Pieloth'
 
 import logging
 
-from packbacker.installers import installer_prototypes
 from packbacker.errors import ParameterError
+from packbacker.installers import installer_prototypes
+from packbacker.utils import UtilsUI
 
 
 class Job(object):
@@ -20,10 +21,12 @@ class Job(object):
         Job.log.info('Starting ...')
         errors = 0
         for i in self._installers:
-            # TODO(cpieloth): if Installer.ask_for_execute("Install Qt5 Framework"):
+            if not UtilsUI.ask_for_execute('Install ' + i.label):
+                continue
+
             try:
                 if i.install():
-                    self.log.info(i.name + ' executed.')
+                    Job.log.info(i.name + ' executed.')
                 else:
                     errors += 1
                     Job.log.error('Error on executing ' + i.name + '!')

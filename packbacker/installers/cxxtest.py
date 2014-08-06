@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-
 """
 Downloads necessary files for CxxTest.
 """
@@ -20,7 +18,7 @@ class CxxTest(Installer):
     REPO_FOLDER = "cxxtest"
 
     def __init__(self):
-        Installer.__init__(self, "CxxTest")
+        Installer.__init__(self, 'cxxtest', 'CxxTest')
 
     @classmethod
     def instance(cls, params):
@@ -79,19 +77,3 @@ class CxxTest(Installer):
         version = "4.4"  # 2014-06-03
         call("git checkout " + version, shell=True)
         UtilsUI.print_step_end("Initializing")
-
-
-# if __name__ == "__main__":
-#     parser = argparse.ArgumentParser(description="Installs CxxTest.")
-#     parser.add_argument("-d", "--destdir", help="Destination path.")
-#     args = parser.parse_args()
-#
-#     destdir = AInstaller.get_default_destdir()
-#     if args.destdir:
-#         destdir = args.destdir
-#
-#     installer = Installer(destdir)
-#     if installer.do_install():
-#         sys.exit(AInstaller.EXIT_SUCCESS)
-#     else:
-#         sys.exit(AInstaller.EXIT_ERROR)

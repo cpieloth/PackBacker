@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-
 """
 Install and setup 3rd software which is not contained in distribution's packet management.
 All installers must implement AInstaller and check CLI arguments -d and --destdir for destination path.
@@ -17,15 +15,21 @@ from packbacker.utils import UtilsUI
 class Installer(object):
     """Abstract installers with default implementations of pre_install and post_install."""
 
-    def __init__(self, name):
+    def __init__(self, name, label):
         self._name = name
+        self._label = label
         self._dest_dir = ''
         self._log = logging.getLogger(self._name)
 
     @property
     def name(self):
-        """Name of the installers."""
+        """Short name of the installers."""
         return self._name
+
+    @property
+    def label(self):
+        """Long name of the installers."""
+        return self._label
 
     @property
     def dest_dir(self):
@@ -88,59 +92,3 @@ class Installer(object):
     def matches(self, installer):
         """Checks if this command should be used for execution."""
         return installer.lower().startswith(self.name)
-
-
-# class InstallerJob(Installer):
-#
-#     def __init__(self, dest_dir):
-#         Installer.__init__(self, "Install Dependencies", dest_dir)
-#
-#     def _install(self):
-#         destdir_arg = "-d " + self._dest_dir
-#         rc = 0
-#
-#         if Installer.ask_for_execute("Install Qt5 Framework"):
-#             rc += call("python install_qt5_static.py " + destdir_arg, shell=True)
-#
-#         print
-#
-#         if Installer.ask_for_execute("Install MNE-CPP"):
-#             rc += call("python install_mne.py " + destdir_arg, shell=True)
-#
-#         print
-#
-#         if Installer.ask_for_execute("Install FielTrip Buffer"):
-#             rc += call("python install_ft_buffer.py " + destdir_arg, shell=True)
-#
-#         print
-#
-#         # Optional libraries, depending on versions in package repository
-#         if Installer.ask_for_execute("Install Point Cloud Library"):
-#             rc += call("python install_pcl.py " + destdir_arg, shell=True)
-#
-#         print
-#
-#         if Installer.ask_for_execute("Install Eigen with sparse matrix support"):
-#             rc += call("python eigen3.py " + destdir_arg, shell=True)
-#
-#         if rc == 0:
-#             return True
-#         else:
-#             print("\nErrors occurred during installation! Please check and solve it manually.\n")
-#             return False
-#
-#
-# if __name__ == "__main__":
-#     parser = argparse.ArgumentParser(description="Installs 3rd party software and libraries for NA-Online Toolbox.")
-#     parser.add_argument("-d", "--destdir", help="Destination path.")
-#     args = parser.parse_args()
-#
-#     destdir = Installer.get_default_destdir()
-#     if args.destdir:
-#         destdir = args.destdir
-#
-#     installer = InstallerJob(destdir)
-#     if installer.install():
-#         sys.exit(Installer.EXIT_SUCCESS)
-#     else:
-#         sys.exit(Installer.EXIT_ERROR)
