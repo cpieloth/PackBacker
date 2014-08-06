@@ -16,8 +16,6 @@ from packbacker.utils import UtilsUI
 
 class Installer(object):
     """Abstract installers with default implementations of pre_install and post_install."""
-    EXIT_SUCCESS = 0
-    EXIT_ERROR = 1
 
     def __init__(self, name):
         self._name = name
