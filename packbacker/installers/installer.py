@@ -8,14 +8,10 @@ Furthermore the __main__ must invoke the installation with installers.do_install
 
 __author__ = 'Christof Pieloth'
 
-import argparse
 import logging
 import os
-import subprocess
-from subprocess import call
-import sys
 
-DEPENDENCY_PATH_PREFIX = "na-online_dependencies"
+from packbacker.utils import UtilsUI
 
 
 class Installer(object):
@@ -25,6 +21,7 @@ class Installer(object):
 
     def __init__(self, name):
         self._name = name
+        self._dest_dir = ''
         self._log = logging.getLogger(self._name)
 
     @property
@@ -61,7 +58,7 @@ class Installer(object):
 
     def install(self):
         """Starts the installation process."""
-        Installer.print_install_begin(self._name)
+        UtilsUI.print_install_begin(self._name)
 
         try:
             success = self._pre_install()
@@ -74,7 +71,7 @@ class Installer(object):
             success = False
             self.log.error("Unexpected error:\n" + str(ex))
 
-        Installer.print_install_end(self._name)
+        UtilsUI.print_install_end(self._name)
         return success
 
     @classmethod
@@ -94,68 +91,6 @@ class Installer(object):
         """Checks if this command should be used for execution."""
         return installer.lower().startswith(self.name)
 
-# TODO(cpieloth): move to UiUtils or similar
-    @staticmethod
-    def ask_for_execute(action):
-        var = raw_input(action + " y/n? ")
-        if var.startswith('y'):
-            return True
-        else:
-            return False
-
-
-    @staticmethod
-    def ask_for_make_jobs():
-        jobs = 2
-        try:
-            jobs = int(raw_input("Number of jobs (default: 2): "))
-        except ValueError:
-            print("Wrong input format.")
-        if jobs < 1:
-            jobs = 1
-        print("Using job=" + str(jobs))
-        return jobs
-
-    @staticmethod
-    def print_install_begin(dep_name):
-        # print('=' * len(dep_name))
-        print('=' * 80)
-        print(dep_name)
-        print('-' * 80)
-
-    @staticmethod
-    def print_install_end(dep_name):
-        print('-' * 80)
-        print(dep_name)
-        print('=' * 80)
-
-    @staticmethod
-    def print_step_begin(action_str):
-        info = action_str + " ..."
-        print(info)
-        print('-' * 40)
-
-    @staticmethod
-    def print_step_end(action_str):
-        info = action_str + " ... finished!"
-        print('-' * 40)
-        print(info)
-
-    @staticmethod
-    def check_program(program, arg):
-        try:
-            call([program, arg], stdout=subprocess.PIPE)
-            return True
-        except OSError as e:
-            print("Could not found: " + program)
-            return False
-
-    @staticmethod
-    def get_default_destdir():
-        homedir = os.path.expanduser("~")
-        destdir = os.path.join(homedir, DEPENDENCY_PATH_PREFIX)
-        return destdir
-    
 
 # class InstallerJob(Installer):
 #

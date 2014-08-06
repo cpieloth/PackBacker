@@ -9,10 +9,11 @@ __author__ = 'Christof Pieloth'
 import os
 from subprocess import call
 
-from packbacker.installers.installer import Installer
-from packbacker.installers.installer import Installer as Utils
 from packbacker.constants import Parameter
 from packbacker.errors import ParameterError
+from packbacker.utils import Utils
+from packbacker.utils import UtilsUI
+from packbacker.installers.installer import Installer
 
 
 class CxxTest(Installer):
@@ -41,42 +42,43 @@ class CxxTest(Installer):
         return success
 
     def _install(self):
-        if Utils.ask_for_execute("Download " + self.name):
+        if UtilsUI.ask_for_execute("Download " + self.name):
             self._download()
 
-        print
+        print()
 
-        if Utils.ask_for_execute("Initialize " + self.name):
+        if UtilsUI.ask_for_execute("Initialize " + self.name):
             self._initialize()
 
         return True
 
     def _post_install(self):
-        print("environment variables:\n")
+        envs = {}
 
         root_dir = os.path.join(self.dest_dir, self.REPO_FOLDER)
-        print("    CXXTEST_ROOT=" + root_dir)
+        envs['CXXTEST_ROOT'] = root_dir
 
         include_dir = os.path.join(self.dest_dir, self.REPO_FOLDER)
-        print("    CXXTEST_INCLUDE_DIR=" + include_dir)
+        envs['CXXTEST_INCLUDE_DIR'] = include_dir
 
-        print
+        UtilsUI.print_env_var(envs)
+
         return True
 
     def _download(self):
-        Utils.print_step_begin("Downloading")
+        UtilsUI.print_step_begin("Downloading")
         repo = "https://github.com/CxxTest/cxxtest.git"
         repo_dir = os.path.join(self.dest_dir, self.REPO_FOLDER)
         call("git clone " + repo + " " + repo_dir, shell=True)
-        Utils.print_step_end("Downloading")
+        UtilsUI.print_step_end("Downloading")
 
     def _initialize(self):
-        Utils.print_step_begin("Initializing")
+        UtilsUI.print_step_begin("Initializing")
         repo_dir = os.path.join(self.dest_dir, self.REPO_FOLDER)
         os.chdir(repo_dir)
         version = "4.4"  # 2014-06-03
         call("git checkout " + version, shell=True)
-        Utils.print_step_end("Initializing")
+        UtilsUI.print_step_end("Initializing")
 
 
 # if __name__ == "__main__":
