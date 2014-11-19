@@ -59,22 +59,22 @@ class MneCpp(Installer):
 
     def _install(self):
         if UtilsUI.ask_for_execute("Download " + self.name):
-            self._download()
+            self.__download()
 
         print()
 
         if UtilsUI.ask_for_execute("Initialize " + self.name):
-            self._initialize()
+            self.__initialize()
 
         print()
 
         if UtilsUI.ask_for_execute("Configure " + self.name):
-            self._configure()
+            self.__configure()
 
         print()
 
         if UtilsUI.ask_for_execute("Compile " + self.name):
-            self._compile()
+            self.__compile()
 
         return True
 
@@ -86,14 +86,14 @@ class MneCpp(Installer):
         UtilsUI.print_env_var("MNE_LIBRARY_DIR", library_path)
         return True
 
-    def _download(self):
+    def __download(self):
         UtilsUI.print_step_begin("Downloading")
         repo = "https://github.com/mne-tools/mne-cpp.git"
         repo_dir = os.path.join(self.arg_dest, self.REPO_FOLDER)
         call("git clone " + repo + " " + repo_dir, shell=True)
         UtilsUI.print_step_end("Downloading")
 
-    def _initialize(self):
+    def __initialize(self):
         UtilsUI.print_step_begin("Initializing")
         repo_dir = os.path.join(self.arg_dest, self.REPO_FOLDER)
         os.chdir(repo_dir)
@@ -101,7 +101,7 @@ class MneCpp(Installer):
         call("git checkout " + version, shell=True)
         UtilsUI.print_step_end("Initializing")
 
-    def _configure(self):
+    def __configure(self):
         UtilsUI.print_step_begin("Configuring")
         mne_dir = os.path.join(self.arg_dest, self.REPO_FOLDER, "MNE")
         os.chdir(mne_dir)
@@ -109,7 +109,7 @@ class MneCpp(Installer):
         call(mne_configure, shell=True)
         UtilsUI.print_step_end("Configuring")
 
-    def _compile(self):
+    def __compile(self):
         UtilsUI.print_step_begin("Compiling")
         mne_dir = os.path.join(self.arg_dest, self.REPO_FOLDER, "MNE")
         os.chdir(mne_dir)

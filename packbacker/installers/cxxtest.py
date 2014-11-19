@@ -41,12 +41,12 @@ class CxxTest(Installer):
 
     def _install(self):
         if UtilsUI.ask_for_execute("Download " + self.name):
-            self._download()
+            self.__download()
 
         print()
 
         if UtilsUI.ask_for_execute("Initialize " + self.name):
-            self._initialize()
+            self.__initialize()
 
         return True
 
@@ -63,14 +63,14 @@ class CxxTest(Installer):
 
         return True
 
-    def _download(self):
+    def __download(self):
         UtilsUI.print_step_begin("Downloading")
         repo = "https://github.com/CxxTest/cxxtest.git"
         repo_dir = os.path.join(self.arg_dest, self.REPO_FOLDER)
         call("git clone " + repo + " " + repo_dir, shell=True)
         UtilsUI.print_step_end("Downloading")
 
-    def _initialize(self):
+    def __initialize(self):
         UtilsUI.print_step_begin("Initializing")
         repo_dir = os.path.join(self.arg_dest, self.REPO_FOLDER)
         os.chdir(repo_dir)

@@ -49,17 +49,17 @@ class FtBuffer(Installer):
 
     def _install(self):
         if UtilsUI.ask_for_execute("Download " + self.name):
-            self._download()
+            self.__download()
 
         print()
 
         if UtilsUI.ask_for_execute("Initialize " + self.name):
-            self._initialize()
+            self.__initialize()
 
         print()
 
         if UtilsUI.ask_for_execute("Compile " + self.name):
-            self._compile()
+            self.__compile()
 
         return True
 
@@ -79,14 +79,14 @@ class FtBuffer(Installer):
         UtilsUI.print_env_var("FTB_CLIENT_LIBRARY=", ftb_client_lib)
         return True
 
-    def _download(self):
+    def __download(self):
         UtilsUI.print_step_begin("Downloading")
         repo = "https://github.com/fieldtrip/fieldtrip.git"
         repo_dir = os.path.join(self.arg_dest, self.REPO_FOLDER)
         call("git clone " + repo + " " + repo_dir, shell=True)
         UtilsUI.print_step_end("Downloading")
 
-    def _initialize(self):
+    def __initialize(self):
         UtilsUI.print_step_begin("Initializing")
         repo_dir = os.path.join(self.arg_dest, self.REPO_FOLDER)
         os.chdir(repo_dir)
@@ -94,19 +94,19 @@ class FtBuffer(Installer):
         call("git checkout " + version, shell=True)
         UtilsUI.print_step_end("Initializing")
 
-    def _compile(self):
+    def __compile(self):
         UtilsUI.print_step_begin("Compiling")
-        self._compile_ftb_buffer()
-        self._compile_ftb_client()
+        self.__compile_ftb_buffer()
+        self.__compile_ftb_client()
         UtilsUI.print_step_end("Compiling")
 
-    def _compile_ftb_buffer(self):
+    def __compile_ftb_buffer(self):
         buffer_path = os.path.join(self.arg_dest, self.REPO_FOLDER, self.FTB_BUFFER_INCLUDE)
         os.chdir(buffer_path)
         call("make -j2", shell=True)
         call("cp libbuffer.a " + self.FTB_BUFFER_LIBRARY, shell=True)
 
-    def _compile_ftb_client(self):
+    def __compile_ftb_client(self):
         client_path = os.path.join(self.arg_dest, self.REPO_FOLDER, self.FTB_CLIENT_INCLUDE)
         os.chdir(client_path)
         call("g++ -c FtConnection.cc -I../src -I. -Wunused -Wall -pedantic -O3 -fPIC", shell=True)

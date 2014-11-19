@@ -50,22 +50,22 @@ class Pcl(Installer):
 
     def _install(self):
         if UtilsUI.ask_for_execute("Download " + self.name):
-            self._download()
+            self.__download()
 
         print()
 
         if UtilsUI.ask_for_execute("Initialize " + self.name):
-            self._initialize()
+            self.__initialize()
 
         print()
 
         if UtilsUI.ask_for_execute("Configure " + self.name):
-            self._configure()
+            self.__configure()
 
         print()
 
         if UtilsUI.ask_for_execute("Compile " + self.name):
-            self._compile_install()
+            self.__compile_install()
 
         return True
 
@@ -74,14 +74,14 @@ class Pcl(Installer):
         UtilsUI.print_env_var("PCL_DIR=", pcl_dir)
         return True
 
-    def _download(self):
+    def __download(self):
         UtilsUI.print_step_begin("Downloading")
         repo = "https://github.com/PointCloudLibrary/pcl.git"
         repo_dir = os.path.join(self.arg_dest, self.REPO_FOLDER)
         call("git clone " + repo + " " + repo_dir, shell=True)
         UtilsUI.print_step_end("Downloading")
 
-    def _initialize(self):
+    def __initialize(self):
         UtilsUI.print_step_begin("Initializing")
         repo_dir = os.path.join(self.arg_dest, self.REPO_FOLDER)
         os.chdir(repo_dir)
@@ -89,7 +89,7 @@ class Pcl(Installer):
         call("git checkout " + version, shell=True)
         UtilsUI.print_step_end("Initializing")
 
-    def _configure(self):
+    def __configure(self):
         UtilsUI.print_step_begin("Configuring")
         build_dir = os.path.join(self.arg_dest, self.REPO_FOLDER, self.BUILD_FOLDER)
         if not os.path.exists(build_dir):
@@ -115,7 +115,7 @@ class Pcl(Installer):
         call(cmake_cmd, shell=True)
         UtilsUI.print_step_end("Configuring")
 
-    def _compile_install(self):
+    def __compile_install(self):
         UtilsUI.print_step_begin("Compiling & Installing")
         build_dir = os.path.join(self.arg_dest, self.REPO_FOLDER, self.BUILD_FOLDER)
         os.chdir(build_dir)
