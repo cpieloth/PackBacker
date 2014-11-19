@@ -15,7 +15,7 @@ cxxtest: dest_dir=~;
 eigen3: dest_dir=~;
 ```
 
-Run backup job:
+Run installation job:
 ```
 $ python3 packbacker.py -j jobs/example.pb
 ```
