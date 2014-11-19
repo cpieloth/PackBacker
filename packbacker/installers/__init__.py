@@ -3,7 +3,7 @@ __author__ = 'Christof Pieloth'
 from .cxxtest import CxxTest
 from .eigen3 import Eigen3
 from .ftbuffer import FtBuffer
-from .mnecpp import MNECPP
+from .mnecpp import MneCpp
 from .pcl import Pcl
 
 
@@ -13,6 +13,6 @@ def installer_prototypes():
     prototypes.append(CxxTest.prototype())
     prototypes.append(Eigen3.prototype())
     prototypes.append(FtBuffer.prototype())
-    prototypes.append(MNECPP.prototype())
+    prototypes.append(MneCpp.prototype())
     prototypes.append(Pcl.prototype())
     return prototypes

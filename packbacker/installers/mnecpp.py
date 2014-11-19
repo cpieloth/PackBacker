@@ -16,12 +16,12 @@ from packbacker.utils import UtilsUI
 from packbacker.installers.installer import Installer
 
 
-class MNECPP(Installer):
+class MneCpp(Installer):
     REPO_FOLDER = "mne-cpp"
     PARAM_QMAKE5 = "qmake5"
 
     def __init__(self):
-        Installer.__init__(self, 'MNE-CPP', 'MNE-CPP')
+        Installer.__init__(self, 'mne-cpp', 'MNE-CPP')
         self.__arg_qmake5 = 'qmake5'
 
     @property
@@ -35,7 +35,7 @@ class MNECPP(Installer):
 
     @classmethod
     def instance(cls, params):
-        installer = MNECPP()
+        installer = MneCpp()
         if Parameter.DEST_DIR in params:
             installer.arg_dest = params[Parameter.DEST_DIR]
         else:
@@ -46,7 +46,7 @@ class MNECPP(Installer):
 
     @classmethod
     def prototype(cls):
-        return MNECPP()
+        return MneCpp()
 
     def _pre_install(self):
         success = True
