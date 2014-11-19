@@ -38,8 +38,8 @@ class Pcl(Installer):
         return Pcl()
 
     def _pre_install(self):
-        print("NOTE: Before installing PCL from source, please try to install prebuilt binaries:")
-        print("      http://www.pointclouds.org/downloads/")
+        UtilsUI.print("NOTE: Before installing PCL from source, please try to install prebuilt binaries:")
+        UtilsUI.print("      http://www.pointclouds.org/downloads/")
         success = True
         success = success and Utils.check_program("git", "--version")
         success = success and Utils.check_program("cmake", "--version")

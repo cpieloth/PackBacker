@@ -35,48 +35,56 @@ class UtilsUI:
         try:
             jobs = int(input("Number of jobs (default: 2): "))
         except ValueError:
-            print("Wrong input format.")
+            UtilsUI.print_error("Wrong input format.")
         if jobs < 1:
             jobs = 1
-        print("Using job=" + str(jobs))
+        UtilsUI.print("Using job=" + str(jobs))
         return jobs
 
     @staticmethod
     def print_install_begin(dep_name):
-        print('=' * UtilsUI.COLUMNS_INSTALL)
-        print(dep_name)
-        print('-' * UtilsUI.COLUMNS_INSTALL)
+        UtilsUI.print('=' * UtilsUI.COLUMNS_INSTALL)
+        UtilsUI.print(dep_name)
+        UtilsUI.print('-' * UtilsUI.COLUMNS_INSTALL)
 
     @staticmethod
     def print_install_end(dep_name):
-        print('-' * UtilsUI.COLUMNS_INSTALL)
-        print(dep_name)
-        print('=' * UtilsUI.COLUMNS_INSTALL)
+        UtilsUI.print('-' * UtilsUI.COLUMNS_INSTALL)
+        UtilsUI.print(dep_name)
+        UtilsUI.print('=' * UtilsUI.COLUMNS_INSTALL)
 
     @staticmethod
     def print_step_begin(action_str):
         info = action_str + " ..."
-        print(info)
-        print('-' * UtilsUI.COLUMNS_STEP)
+        UtilsUI.print(info)
+        UtilsUI.print('-' * UtilsUI.COLUMNS_STEP)
 
     @staticmethod
     def print_step_end(action_str):
         info = action_str + " ... finished!"
-        print('-' * UtilsUI.COLUMNS_STEP)
-        print(info)
+        UtilsUI.print('-' * UtilsUI.COLUMNS_STEP)
+        UtilsUI.print(info)
 
     @staticmethod
     def print_env_var(name_env, value=None):
         if value is None:
             if len(name_env) == 1:
-                print('Environment variable to set:')
+                UtilsUI.print('Environment variable to set:')
             else:
-                print('Environment variables to set:')
-            print()
+                UtilsUI.print('Environment variables to set:')
+            UtilsUI.print()
             for name, value in name_env.items():
-                print(name + "=" + value)
+                UtilsUI.print(name + "=" + value)
         else:
-            print('Environment variable to set:')
-            print()
-            print(name_env + "=" + value)
-        print()
+            UtilsUI.print('Environment variable to set:')
+            UtilsUI.print()
+            UtilsUI.print(name_env + "=" + value)
+        UtilsUI.print()
+
+    @staticmethod
+    def print(*args):
+        print(*args)
+
+    @staticmethod
+    def print_error(*args):
+        print(*args)
