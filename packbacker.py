@@ -2,22 +2,42 @@
 
 __author__ = 'Christof Pieloth'
 
+import argparse
+from argparse import RawTextHelpFormatter
 import logging
 import sys
 
 from packbacker.installers import installer_prototypes
 from packbacker.job import Job
+from packbacker.utils import UtilsUI
 
 
 def main():
-    logging.basicConfig(level=logging.DEBUG, stream=sys.stdout, format='[%(levelname)s] %(name)s: %(message)s')
+    # Prepare CLI arguments
+    parser = argparse.ArgumentParser(formatter_class=RawTextHelpFormatter)
+    parser.name = 'PackBacker'
+    parser.description = 'PackBacker is a light tool to download and install 3rd party libraries.'
+    parser.add_argument("-j", "--job", help="Job file.", required=True)
+    parser.epilog = 'PackBacker  Copyright (C) 2014  Christof Pieloth\n' \
+                    'This program comes with ABSOLUTELY NO WARRANTY; see LICENSE file.\n' \
+                    'This is free software, and you are welcome to redistribute it\n' \
+                    'under certain conditions; see LICENSE file.'
+    args = parser.parse_args()
 
-    # TODO(cpieloth): CLI args, ...
-    job = Job()
-    for i in installer_prototypes():
-        i.arg_dest = '~'
-        job.add_installer(i)
-    job.execute()
+    UtilsUI.print('PackBacker started ...')
+    # Read job
+    job = Job.read_job(args.job)
+
+    # Execute job
+    errors = 0
+    if job:
+        errors += job.execute()
+    else:
+        UtilsUI.print_error('Could not create job. Cancel installations!')
+        errors += 1
+
+    UtilsUI.print_error('PackBacker finished with errors: ' + str(errors))
+    return errors
 
 
 if __name__ == '__main__':

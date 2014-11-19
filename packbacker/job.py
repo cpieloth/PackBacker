@@ -18,7 +18,6 @@ class Job(object):
         self._installers.append(installer)
 
     def execute(self):
-        Job.log.info('Starting ...')
         errors = 0
         for i in self._installers:
             if not UtilsUI.ask_for_execute('Install ' + i.label):
@@ -33,8 +32,6 @@ class Job(object):
             except Exception as ex:
                 errors += 1
                 Job.log.error('Unknown error:\n' + str(ex))
-
-        Job.log.info('Finished with errors: ' + str(errors))
         return errors
 
     @staticmethod
@@ -42,32 +39,28 @@ class Job(object):
         prototypes = []
         prototypes.extend(installer_prototypes())
 
-        job_file = None
         job = None
         try:
             job_file = open(fname, 'r')
-            job = Job()
-            for line in job_file:
-                if line[0] == '#':
-                    continue
-                for p in prototypes:
-                    if p.matches(line):
-                        params = Job.read_parameter(line)
-                        try:
-                            cmd = p.instance(params)
-                            job.add_installer(cmd)
-                        except ParameterError as err:
-                            Job.log.error("Installer '" + p.name + "' is skipped: " + str(err))
-                        continue
         except IOError as err:
-            job.log.critical('Error on reading job file:\n' + str(err))
-            job = None
-        except Exception as ex:
-            Job.log.critical('Unknown error: \n' + str(ex))
-            job = None
-        finally:
-            if job_file:
-                job_file.close()
+            Job.log.critical('Error on reading job file:\n' + str(err))
+        else:
+            with job_file:
+                job = Job()
+                for line in job_file:
+                    if line[0] == '#':
+                        continue
+                    for p in prototypes:
+                        if p.matches(line):
+                            try:
+                                params = Job.read_parameter(line)
+                                cmd = p.instance(params)
+                                job.add_installer(cmd)
+                            except ParameterError as err:
+                                Job.log.error("Installer '" + p.name + "' is skipped: " + str(err))
+                            except Exception as ex:
+                                Job.log.critical('Unknown error: \n' + str(ex))
+                            continue
 
         return job
 
