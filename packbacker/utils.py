@@ -18,6 +18,9 @@ class Utils:
 
 
 class UtilsUI:
+    COLUMNS_INSTALL = 80
+    COLUMNS_STEP = 40
+
     @staticmethod
     def ask_for_execute(action):
         var = input(action + " y/n? ")
@@ -40,27 +43,26 @@ class UtilsUI:
 
     @staticmethod
     def print_install_begin(dep_name):
-        # print('=' * len(dep_name))
-        print('=' * 80)
+        print('=' * UtilsUI.COLUMNS_INSTALL)
         print(dep_name)
-        print('-' * 80)
+        print('-' * UtilsUI.COLUMNS_INSTALL)
 
     @staticmethod
     def print_install_end(dep_name):
-        print('-' * 80)
+        print('-' * UtilsUI.COLUMNS_INSTALL)
         print(dep_name)
-        print('=' * 80)
+        print('=' * UtilsUI.COLUMNS_INSTALL)
 
     @staticmethod
     def print_step_begin(action_str):
         info = action_str + " ..."
         print(info)
-        print('-' * 40)
+        print('-' * UtilsUI.COLUMNS_STEP)
 
     @staticmethod
     def print_step_end(action_str):
         info = action_str + " ... finished!"
-        print('-' * 40)
+        print('-' * UtilsUI.COLUMNS_STEP)
         print(info)
 
     @staticmethod
