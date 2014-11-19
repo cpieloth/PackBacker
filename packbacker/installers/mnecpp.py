@@ -22,26 +22,26 @@ class MNECPP(Installer):
 
     def __init__(self):
         Installer.__init__(self, 'MNE-CPP', 'MNE-CPP')
-        self.__qmake5 = 'qmake5'
+        self.__arg_qmake5 = 'qmake5'
 
     @property
-    def qmake5(self):
+    def arg_qmake5(self):
         """Alias or symlink to Qt5's qmake."""
-        return self.__qmake5
+        return self.__arg_qmake5
 
-    @qmake5.setter
-    def qmake5(self, dest):
-        self.__qmake5 = dest
+    @arg_qmake5.setter
+    def arg_qmake5(self, dest):
+        self.__arg_qmake5 = dest
 
     @classmethod
     def instance(cls, params):
         installer = MNECPP()
         if Parameter.DEST_DIR in params:
-            installer.dest_dir = params[Parameter.DEST_DIR]
+            installer.arg_dest = params[Parameter.DEST_DIR]
         else:
             raise ParameterError(Parameter.DEST_DIR + ' parameter is missing!')
         if installer.PARAM_QMAKE5 in params:
-            installer.qmake5 = params[installer.PARAM_QMAKE5]
+            installer.arg_qmake5 = params[installer.PARAM_QMAKE5]
         return installer
 
     @classmethod
@@ -52,7 +52,7 @@ class MNECPP(Installer):
         success = True
         success = success and Utils.check_program("git", "--version")
         success = success and Utils.check_program("make", "--version")
-        success = success and Utils.check_program(self.qmake5, "--version")
+        success = success and Utils.check_program(self.arg_qmake5, "--version")
         if not Utils.check_program("g++", "--version") and not Utils.check_program("c++", "--version"):
             success = False
         return success
@@ -79,23 +79,23 @@ class MNECPP(Installer):
         return True
 
     def _post_install(self):
-        include_dir = os.path.join(self.dest_dir, self.REPO_FOLDER, "MNE")
+        include_dir = os.path.join(self.arg_dest, self.REPO_FOLDER, "MNE")
         UtilsUI.print_env_var("MNE_INCLUDE_DIR", include_dir)
 
-        library_path = os.path.join(self.dest_dir, self.REPO_FOLDER, "lib")
+        library_path = os.path.join(self.arg_dest, self.REPO_FOLDER, "lib")
         UtilsUI.print_env_var("MNE_LIBRARY_DIR", library_path)
         return True
 
     def _download(self):
         UtilsUI.print_step_begin("Downloading")
         repo = "https://github.com/mne-tools/mne-cpp.git"
-        repo_dir = os.path.join(self.dest_dir, self.REPO_FOLDER)
+        repo_dir = os.path.join(self.arg_dest, self.REPO_FOLDER)
         call("git clone " + repo + " " + repo_dir, shell=True)
         UtilsUI.print_step_end("Downloading")
 
     def _initialize(self):
         UtilsUI.print_step_begin("Initializing")
-        repo_dir = os.path.join(self.dest_dir, self.REPO_FOLDER)
+        repo_dir = os.path.join(self.arg_dest, self.REPO_FOLDER)
         os.chdir(repo_dir)
         version = "38667b56a09aa2e15c58eba85f455d99c42ce880"  # 2014-11-19
         call("git checkout " + version, shell=True)
@@ -103,15 +103,15 @@ class MNECPP(Installer):
 
     def _configure(self):
         UtilsUI.print_step_begin("Configuring")
-        mne_dir = os.path.join(self.dest_dir, self.REPO_FOLDER, "MNE")
+        mne_dir = os.path.join(self.arg_dest, self.REPO_FOLDER, "MNE")
         os.chdir(mne_dir)
-        mne_configure = self.qmake5 + " -recursive"
+        mne_configure = self.arg_qmake5 + " -recursive"
         call(mne_configure, shell=True)
         UtilsUI.print_step_end("Configuring")
 
     def _compile(self):
         UtilsUI.print_step_begin("Compiling")
-        mne_dir = os.path.join(self.dest_dir, self.REPO_FOLDER, "MNE")
+        mne_dir = os.path.join(self.arg_dest, self.REPO_FOLDER, "MNE")
         os.chdir(mne_dir)
         jobs = UtilsUI.ask_for_make_jobs()
         call("make -j" + str(jobs), shell=True)

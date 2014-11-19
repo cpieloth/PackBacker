@@ -18,7 +18,7 @@ class Installer(object):
     def __init__(self, name, label):
         self._name = name
         self._label = label
-        self._dest_dir = ''
+        self._arg_dest = os.path.expanduser('~')
         self._log = logging.getLogger(self._name)
 
     @property
@@ -32,13 +32,13 @@ class Installer(object):
         return self._label
 
     @property
-    def dest_dir(self):
+    def arg_dest(self):
         """Destination directory."""
-        return self._dest_dir
+        return self._arg_dest
 
-    @dest_dir.setter
-    def dest_dir(self, dest):
-        self._dest_dir = os.path.expanduser(dest)
+    @arg_dest.setter
+    def arg_dest(self, dest):
+        self._arg_dest = os.path.expanduser(dest)
 
     @property
     def log(self):
@@ -60,7 +60,7 @@ class Installer(object):
 
     def install(self):
         """Starts the installation process."""
-        UtilsUI.print_install_begin(self._name)
+        UtilsUI.print_install_begin(self.label)
 
         try:
             success = self._pre_install()
@@ -73,7 +73,7 @@ class Installer(object):
             success = False
             self.log.error("Unexpected error:\n" + str(ex))
 
-        UtilsUI.print_install_end(self._name)
+        UtilsUI.print_install_end(self.label)
         return success
 
     @classmethod

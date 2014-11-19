@@ -15,7 +15,7 @@ from packbacker.installers.installer import Installer
 
 
 class Eigen3(Installer):
-    REPO_FOLDER = "eigen321"
+    REPO_FOLDER = "eigen322"
 
     def __init__(self):
         Installer.__init__(self, 'eigen3', 'Eigen version 3')
@@ -24,7 +24,7 @@ class Eigen3(Installer):
     def instance(cls, params):
         installer = Eigen3()
         if Parameter.DEST_DIR in params:
-            installer.dest_dir = params[Parameter.DEST_DIR]
+            installer.arg_dest = params[Parameter.DEST_DIR]
         else:
             raise ParameterError(Parameter.DEST_DIR + ' parameter is missing!')
         return installer
@@ -50,21 +50,21 @@ class Eigen3(Installer):
         return True
 
     def _post_install(self):
-        include_dir = os.path.join(self.dest_dir, self.REPO_FOLDER)
+        include_dir = os.path.join(self.arg_dest, self.REPO_FOLDER)
         UtilsUI.print_env_var('EIGEN3_INCLUDE_DIR', include_dir)
         return True
 
     def _download(self):
         UtilsUI.print_step_begin("Downloading")
         repo = "https://bitbucket.org/eigen/eigen/"
-        repo_dir = os.path.join(self.dest_dir, self.REPO_FOLDER)
+        repo_dir = os.path.join(self.arg_dest, self.REPO_FOLDER)
         call("hg clone " + repo + " " + repo_dir, shell=True)
         UtilsUI.print_step_end("Downloading")
 
     def _initialize(self):
         UtilsUI.print_step_begin("Initializing")
-        repo_dir = os.path.join(self.dest_dir, self.REPO_FOLDER)
+        repo_dir = os.path.join(self.arg_dest, self.REPO_FOLDER)
         os.chdir(repo_dir)
-        version = "3.2.1"
+        version = "3.2.2"
         call("hg update " + version, shell=True)
         UtilsUI.print_step_end("Initializing")

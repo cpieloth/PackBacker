@@ -15,7 +15,7 @@ def main():
     # TODO(cpieloth): CLI args, ...
     job = Job()
     for i in installer_prototypes():
-        i.dest_dir = '~'
+        i.arg_dest = '~'
         job.add_installer(i)
     job.execute()
 

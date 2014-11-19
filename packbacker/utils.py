@@ -26,7 +26,6 @@ class UtilsUI:
         else:
             return False
 
-
     @staticmethod
     def ask_for_make_jobs():
         jobs = 2
