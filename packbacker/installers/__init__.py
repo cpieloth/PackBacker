@@ -2,6 +2,7 @@ __author__ = 'Christof Pieloth'
 
 from .cxxtest import CxxTest
 from .eigen3 import Eigen3
+from .mnecpp import MNECPP
 
 
 def installer_prototypes():
@@ -9,4 +10,5 @@ def installer_prototypes():
     prototypes = []
     prototypes.append(CxxTest.prototype())
     prototypes.append(Eigen3.prototype())
+    prototypes.append(MNECPP.prototype())
     return prototypes
