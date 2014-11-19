@@ -39,15 +39,14 @@ class Eigen3(Installer):
         return success
 
     def _install(self):
-        if UtilsUI.ask_for_execute("Download " + self.name):
-            self.__download()
+        success = True
 
-        print()
+        if success and UtilsUI.ask_for_execute("Download " + self.name):
+            success = success and self.__download()
+        if success and UtilsUI.ask_for_execute("Initialize " + self.name):
+            success = success and self.__initialize()
 
-        if UtilsUI.ask_for_execute("Initialize " + self.name):
-            self.__initialize()
-
-        return True
+        return success
 
     def _post_install(self):
         include_dir = os.path.join(self.arg_dest, self.REPO_FOLDER)
@@ -60,6 +59,7 @@ class Eigen3(Installer):
         repo_dir = os.path.join(self.arg_dest, self.REPO_FOLDER)
         call("hg clone " + repo + " " + repo_dir, shell=True)
         UtilsUI.print_step_end("Downloading")
+        return True
 
     def __initialize(self):
         UtilsUI.print_step_begin("Initializing")
@@ -68,3 +68,4 @@ class Eigen3(Installer):
         version = "3.2.2"
         call("hg update " + version, shell=True)
         UtilsUI.print_step_end("Initializing")
+        return True

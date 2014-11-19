@@ -49,25 +49,18 @@ class Pcl(Installer):
         return success
 
     def _install(self):
-        if UtilsUI.ask_for_execute("Download " + self.name):
-            self.__download()
+        success = True
 
-        print()
+        if success and UtilsUI.ask_for_execute("Download " + self.name):
+            success = success and self.__download()
+        if success and UtilsUI.ask_for_execute("Initialize " + self.name):
+            success = success and self.__initialize()
+        if success and UtilsUI.ask_for_execute("Configure " + self.name):
+            success = success and self.__configure()
+        if success and UtilsUI.ask_for_execute("Compile " + self.name):
+            success = success and self.__compile_install()
 
-        if UtilsUI.ask_for_execute("Initialize " + self.name):
-            self.__initialize()
-
-        print()
-
-        if UtilsUI.ask_for_execute("Configure " + self.name):
-            self.__configure()
-
-        print()
-
-        if UtilsUI.ask_for_execute("Compile " + self.name):
-            self.__compile_install()
-
-        return True
+        return success
 
     def _post_install(self):
         pcl_dir = os.path.join(self.arg_dest, self.REPO_FOLDER, self.BUILD_FOLDER)
@@ -80,6 +73,7 @@ class Pcl(Installer):
         repo_dir = os.path.join(self.arg_dest, self.REPO_FOLDER)
         call("git clone " + repo + " " + repo_dir, shell=True)
         UtilsUI.print_step_end("Downloading")
+        return True
 
     def __initialize(self):
         UtilsUI.print_step_begin("Initializing")
@@ -88,6 +82,7 @@ class Pcl(Installer):
         version = "pcl-1.7.1"  # 2013-10-07
         call("git checkout " + version, shell=True)
         UtilsUI.print_step_end("Initializing")
+        return True
 
     def __configure(self):
         UtilsUI.print_step_begin("Configuring")
@@ -114,6 +109,7 @@ class Pcl(Installer):
         cmake_cmd = "cmake " + ' '.join(options) + " ../"
         call(cmake_cmd, shell=True)
         UtilsUI.print_step_end("Configuring")
+        return True
 
     def __compile_install(self):
         UtilsUI.print_step_begin("Compiling & Installing")
@@ -124,3 +120,4 @@ class Pcl(Installer):
         if UtilsUI.ask_for_execute("Install PCL to system? (requires root/sudo)"):
             call("sudo make install", shell=True)
         UtilsUI.print_step_end("Compiling & Installing")
+        return True

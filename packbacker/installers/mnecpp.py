@@ -58,25 +58,18 @@ class MneCpp(Installer):
         return success
 
     def _install(self):
-        if UtilsUI.ask_for_execute("Download " + self.name):
-            self.__download()
+        success = True
 
-        print()
+        if success and UtilsUI.ask_for_execute("Download " + self.name):
+            success = success and self.__download()
+        if success and UtilsUI.ask_for_execute("Initialize " + self.name):
+            success = success and self.__initialize()
+        if success and UtilsUI.ask_for_execute("Configure " + self.name):
+            success = success and self.__configure()
+        if success and UtilsUI.ask_for_execute("Compile " + self.name):
+            success = success and self.__compile()
 
-        if UtilsUI.ask_for_execute("Initialize " + self.name):
-            self.__initialize()
-
-        print()
-
-        if UtilsUI.ask_for_execute("Configure " + self.name):
-            self.__configure()
-
-        print()
-
-        if UtilsUI.ask_for_execute("Compile " + self.name):
-            self.__compile()
-
-        return True
+        return success
 
     def _post_install(self):
         include_dir = os.path.join(self.arg_dest, self.REPO_FOLDER, "MNE")
@@ -92,6 +85,7 @@ class MneCpp(Installer):
         repo_dir = os.path.join(self.arg_dest, self.REPO_FOLDER)
         call("git clone " + repo + " " + repo_dir, shell=True)
         UtilsUI.print_step_end("Downloading")
+        return True
 
     def __initialize(self):
         UtilsUI.print_step_begin("Initializing")
@@ -100,6 +94,7 @@ class MneCpp(Installer):
         version = "38667b56a09aa2e15c58eba85f455d99c42ce880"  # 2014-11-19
         call("git checkout " + version, shell=True)
         UtilsUI.print_step_end("Initializing")
+        return True
 
     def __configure(self):
         UtilsUI.print_step_begin("Configuring")
@@ -108,6 +103,7 @@ class MneCpp(Installer):
         mne_configure = self.arg_qmake5 + " -recursive"
         call(mne_configure, shell=True)
         UtilsUI.print_step_end("Configuring")
+        return True
 
     def __compile(self):
         UtilsUI.print_step_begin("Compiling")
@@ -116,3 +112,4 @@ class MneCpp(Installer):
         jobs = UtilsUI.ask_for_make_jobs()
         call("make -j" + str(jobs), shell=True)
         UtilsUI.print_step_end("Compiling")
+        return True

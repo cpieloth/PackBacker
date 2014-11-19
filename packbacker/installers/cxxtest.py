@@ -40,15 +40,14 @@ class CxxTest(Installer):
         return success
 
     def _install(self):
-        if UtilsUI.ask_for_execute("Download " + self.name):
-            self.__download()
+        success = True
 
-        print()
+        if success and UtilsUI.ask_for_execute("Download " + self.name):
+            success = success and self.__download()
+        if success and UtilsUI.ask_for_execute("Initialize " + self.name):
+            success = success and self.__initialize()
 
-        if UtilsUI.ask_for_execute("Initialize " + self.name):
-            self.__initialize()
-
-        return True
+        return success
 
     def _post_install(self):
         envs = {}
@@ -69,6 +68,7 @@ class CxxTest(Installer):
         repo_dir = os.path.join(self.arg_dest, self.REPO_FOLDER)
         call("git clone " + repo + " " + repo_dir, shell=True)
         UtilsUI.print_step_end("Downloading")
+        return True
 
     def __initialize(self):
         UtilsUI.print_step_begin("Initializing")
@@ -77,3 +77,4 @@ class CxxTest(Installer):
         version = "4.4"  # 2014-06-03
         call("git checkout " + version, shell=True)
         UtilsUI.print_step_end("Initializing")
+        return True
