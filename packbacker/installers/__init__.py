@@ -4,6 +4,7 @@ from .cxxtest import CxxTest
 from .eigen3 import Eigen3
 from .ftbuffer import FtBuffer
 from .mnecpp import MNECPP
+from .pcl import Pcl
 
 
 def installer_prototypes():
@@ -13,4 +14,5 @@ def installer_prototypes():
     prototypes.append(Eigen3.prototype())
     prototypes.append(FtBuffer.prototype())
     prototypes.append(MNECPP.prototype())
+    prototypes.append(Pcl.prototype())
     return prototypes
