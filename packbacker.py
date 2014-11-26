@@ -4,12 +4,17 @@ __author__ = 'Christof Pieloth'
 
 import argparse
 from argparse import RawTextHelpFormatter
-import logging
+import signal
 import sys
 
-from packbacker.installers import installer_prototypes
 from packbacker.job import Job
 from packbacker.utils import UtilsUI
+
+
+def sigint_handler(signum, frame):
+    sys.exit('Installation canceled by user!')
+
+signal.signal(signal.SIGINT, sigint_handler)
 
 
 def main():
@@ -36,9 +41,13 @@ def main():
         UtilsUI.print_error('Could not create job. Cancel installations!')
         errors += 1
 
-    UtilsUI.print_error('PackBacker finished with errors: ' + str(errors))
-    return errors
+    if errors == 0:
+        UtilsUI.print('PackBacker finished.')
+        return 0
+    else:
+        UtilsUI.print_error('PackBacker finished with errors: ' + str(errors))
+        return 1
 
 
 if __name__ == '__main__':
-    main()
+    sys.exit(main())
