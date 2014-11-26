@@ -1,9 +1,3 @@
-#!/usr/bin/env python
-
-"""
-Setup MNE-CPP library and includes for compilation.
-"""
-
 __author__ = 'Christof Pieloth'
 
 import os
@@ -17,6 +11,10 @@ from packbacker.installers.installer import Installer
 
 
 class MneCpp(Installer):
+    """
+    Setup MNE-CPP library and includes for compilation.
+    WWW: https://github.com/mne-tools/mne-cpp"""
+
     REPO_FOLDER = "mne-cpp"
     PARAM_QMAKE5 = "qmake5"
 

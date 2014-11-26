@@ -1,7 +1,3 @@
-"""
-Downloads Eigen3 library with sparse matrix support.
-"""
-
 __author__ = 'Christof Pieloth'
 
 import os
@@ -15,6 +11,11 @@ from packbacker.installers.installer import Installer
 
 
 class Eigen3(Installer):
+    """
+    Downloads Eigen3 library with sparse matrix support.
+    WWW: http://eigen.tuxfamily.org
+    """
+
     REPO_FOLDER = "eigen322"
 
     def __init__(self):

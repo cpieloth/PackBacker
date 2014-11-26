@@ -1,7 +1,3 @@
-"""
-Downloads necessary files for CxxTest.
-"""
-
 __author__ = 'Christof Pieloth'
 
 import os
@@ -15,6 +11,11 @@ from packbacker.installers.installer import Installer
 
 
 class CxxTest(Installer):
+    """
+    Downloads necessary files for CxxTest.
+    WWW: http://cxxtest.com
+    """
+
     REPO_FOLDER = "cxxtest"
 
     def __init__(self):

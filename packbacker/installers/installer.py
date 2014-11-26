@@ -1,9 +1,3 @@
-"""
-Install and setup 3rd software which is not contained in distribution's packet management.
-All installers must implement AInstaller and check CLI arguments -d and --destdir for destination path.
-Furthermore the __main__ must invoke the installation with installers.do_install().
-"""
-
 __author__ = 'Christof Pieloth'
 
 import logging
@@ -13,7 +7,7 @@ from packbacker.utils import UtilsUI
 
 
 class Installer(object):
-    """Abstract installers with default implementations of pre_install and post_install."""
+    """Abstract installer with default implementations of pre_install and post_install."""
 
     def __init__(self, name, label):
         self._name = name

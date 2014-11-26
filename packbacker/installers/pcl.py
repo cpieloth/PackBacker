@@ -1,10 +1,3 @@
-#!/usr/bin/env python
-
-"""
-Compiling Point Cloud Library (PCL).
-WWW: http://www.pointclouds.org
-"""
-
 __author__ = 'Christof Pieloth'
 
 import os
@@ -18,6 +11,11 @@ from packbacker.installers.installer import Installer
 
 
 class Pcl(Installer):
+    """
+    Compiling Point Cloud Library (PCL).
+    WWW: http://www.pointclouds.org
+    """
+
     REPO_FOLDER = "pcl"
     BUILD_FOLDER = "build"
 

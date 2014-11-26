@@ -1,9 +1,3 @@
-#!/usr/bin/env python
-
-"""
-Setup FieldTrip Buffer library and includes for compilation.
-"""
-
 __author__ = 'Christof Pieloth'
 
 import os
@@ -17,6 +11,10 @@ from packbacker.installers.installer import Installer
 
 
 class FtBuffer(Installer):
+    """
+    Setup FieldTrip Buffer library and includes for compilation.
+    WWW: fieldtrip.fcdonders.nl/development/realtime
+    """
     REPO_FOLDER = "fieldtrip"
     FTB_BUFFER_INCLUDE = "realtime/src/buffer/src"
     FTB_BUFFER_LIBRARY = "libFtbBuffer.a"
