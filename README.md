@@ -17,7 +17,7 @@ eigen3: dest_dir=~;
 
 Run installation job:
 ```
-$ python3 packbacker.py -j jobs/example.pb
+$ python3 packbacker.py jobs/example.pb
 ```
 
 
@@ -41,5 +41,5 @@ $ vi jobs/myjob.bb
 * Commit your setup (optional).
 * Run your installation job
 ```
-$ python3 packbacker.py -j jobs/myjob.pb
+$ python3 packbacker.py jobs/myjob.pb
 ```

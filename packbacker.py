@@ -17,7 +17,7 @@ def main():
     parser = argparse.ArgumentParser(formatter_class=RawTextHelpFormatter)
     parser.name = 'PackBacker'
     parser.description = 'PackBacker is a light tool to download and install 3rd party libraries.'
-    parser.add_argument("-j", "--job", help="Job file.", required=True)
+    parser.add_argument("job", help="Job file.")
     parser.epilog = 'PackBacker  Copyright (C) 2014  Christof Pieloth\n' \
                     'This program comes with ABSOLUTELY NO WARRANTY; see LICENSE file.\n' \
                     'This is free software, and you are welcome to redistribute it\n' \
