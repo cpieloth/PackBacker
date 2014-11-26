@@ -10,34 +10,34 @@ class Installer(object):
     """Abstract installer with default implementations of pre_install and post_install."""
 
     def __init__(self, name, label):
-        self._name = name
-        self._label = label
-        self._arg_dest = os.path.expanduser('~')
-        self._log = logging.getLogger(self._name)
+        self.__name = name
+        self.__label = label
+        self.__arg_dest = os.path.expanduser('~')
+        self.__log = logging.getLogger(self.__name)
 
     @property
     def name(self):
         """Short name of the installers."""
-        return self._name
+        return self.__name
 
     @property
     def label(self):
         """Long name of the installers."""
-        return self._label
+        return self.__label
 
     @property
     def arg_dest(self):
         """Destination directory."""
-        return self._arg_dest
+        return self.__arg_dest
 
     @arg_dest.setter
     def arg_dest(self, dest):
-        self._arg_dest = os.path.expanduser(dest)
+        self.__arg_dest = os.path.expanduser(dest)
 
     @property
     def log(self):
         """Logger for this installers."""
-        return self._log
+        return self.__log
 
     def _pre_install(self):
         """Is called before the installation. It can be used to check for tools which are required."""
