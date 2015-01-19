@@ -3,6 +3,8 @@ __author__ = 'Christof Pieloth'
 import logging
 import os
 
+from packbacker.pluginloader import BaseClassCondition
+from packbacker.pluginloader import PluginLoader
 from packbacker.utils import UtilsUI
 
 
@@ -86,3 +88,16 @@ class Installer(object):
     def matches(self, installer):
         """Checks if this command should be used for execution."""
         return installer.lower().startswith(self.name)
+
+    @staticmethod
+    def load_prototypes(path):
+        """Returns prototypes of all known installers."""
+        prototypes = []
+        loader = PluginLoader()
+        loader.load_directory(path, BaseClassCondition(Installer))
+        for k in loader.plugins:
+            clazz = loader.plugins[k]
+            if callable(clazz):
+                prototypes.append(clazz().prototype())
+
+        return prototypes

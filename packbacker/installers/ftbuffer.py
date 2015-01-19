@@ -7,7 +7,7 @@ from packbacker.constants import Parameter
 from packbacker.errors import ParameterError
 from packbacker.utils import Utils
 from packbacker.utils import UtilsUI
-from packbacker.installers.installer import Installer
+from packbacker.installer import Installer
 
 
 class FtBuffer(Installer):
