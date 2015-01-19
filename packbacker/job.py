@@ -1,6 +1,7 @@
 __author__ = 'Christof Pieloth'
 
 import logging
+import os
 
 from packbacker.errors import ParameterError
 from packbacker.installers import installer_prototypes
@@ -36,8 +37,8 @@ class Job(object):
 
     @staticmethod
     def read_job(fname):
-        prototypes = []
-        prototypes.extend(installer_prototypes())
+        path = os.path.dirname(os.path.realpath(__file__))
+        prototypes = installer_prototypes(os.path.join(path, 'installers'))
 
         job = None
         try:

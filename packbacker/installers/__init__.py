@@ -1,18 +1,16 @@
 __author__ = 'Christof Pieloth'
 
-from .cxxtest import CxxTest
-from .eigen3 import Eigen3
-from .ftbuffer import FtBuffer
-from .mnecpp import MneCpp
-from .pcl import Pcl
+from .installer import Installer
+from packbacker.pluginloader import PluginLoader
+from packbacker.pluginloader import BaseClassCondition
 
 
-def installer_prototypes():
+def installer_prototypes(path):
     """Returns prototypes of all known installers."""
     prototypes = []
-    prototypes.append(CxxTest.prototype())
-    prototypes.append(Eigen3.prototype())
-    prototypes.append(FtBuffer.prototype())
-    prototypes.append(MneCpp.prototype())
-    prototypes.append(Pcl.prototype())
+    loader = PluginLoader()
+    loader.load_directory(path, BaseClassCondition(Installer))
+    for k in loader.plugins:
+        prototypes.append(loader.plugins[k]().prototype())
+
     return prototypes
