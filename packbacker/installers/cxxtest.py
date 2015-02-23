@@ -20,6 +20,7 @@ class CxxTest(Installer):
 
     def __init__(self):
         Installer.__init__(self, 'cxxtest', 'CxxTest')
+        self.arg_version = "4.4"  # 2014-06-03
 
     @classmethod
     def instance(cls, params):
@@ -28,6 +29,8 @@ class CxxTest(Installer):
             installer.arg_dest = params[Parameter.DEST_DIR]
         else:
             raise ParameterError(Parameter.DEST_DIR + ' parameter is missing!')
+        if Parameter.VERSION in params:
+            installer.arg_version = params[Parameter.VERSION]
         return installer
 
     @classmethod
@@ -75,7 +78,6 @@ class CxxTest(Installer):
         UtilsUI.print_step_begin("Initializing")
         repo_dir = os.path.join(self.arg_dest, self.REPO_FOLDER)
         os.chdir(repo_dir)
-        version = "4.4"  # 2014-06-03
-        call("git checkout " + version, shell=True)
+        call("git checkout " + self.arg_version, shell=True)
         UtilsUI.print_step_end("Initializing")
         return True
