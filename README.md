@@ -83,3 +83,12 @@ def prototype(cls)
 ```
 mydep: arg1=value, ...;
 ```
+
+
+Coding Style
+------------
+
+* https://www.python.org/dev/peps/pep-0008
+* https://www.python.org/dev/peps/pep-0257
+* http://editorconfig.org
+* See .editorconfig in project root
